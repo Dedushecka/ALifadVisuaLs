@@ -1,0 +1,22 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup jdk 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+      - name: build jar
+        run: |
+          chmod +x gradlew
+          ./gradlew build
+      - name: upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: ALifadVisual-Jar
+          path: build/libs/*.jar
